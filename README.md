@@ -99,7 +99,7 @@
 ## 📁 项目结构
 
 ```
-Bangdori4bilibili/
+Bandori4bilibili/
 ├── manifest.json          # 扩展清单 (MV3)
 ├── content.js             # 内容脚本核心（贴纸注入逻辑）
 ├── popup.html / .css / .js   # 弹窗界面（快速开关）
@@ -142,8 +142,8 @@ Bangdori4bilibili/
 如果这个项目让你在 B站 冲浪时多了一份快乐，欢迎给个 ⭐ 支持一下！
 
 <p align="center">
-  <a href="https://github.com/JohnvenTom/Bangdori4bilibili">
-    <img src="https://img.shields.io/github/stars/JohnvenTom/Bangdori4bilibili?style=social" alt="GitHub Stars">
+  <a href="https://github.com/JohnvenTom/Bandori4bilibili">
+    <img src="https://img.shields.io/github/stars/JohnvenTom/Bandori4bilibili?style=social" alt="GitHub Stars">
   </a>
 </p>
 
