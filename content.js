@@ -172,7 +172,11 @@ const DEFAULT_SETTINGS = {
   /** 角色多选列表（角色子目录名数组），空数组 = 显示该乐队所有角色 */
   selectedCharacters: [],
   appearanceProbability: 100,
-  sizeScale: 75
+  sizeScale: 75,
+  /** 贴纸透明度（20-100），100 = 完全不透明 */
+  stickerOpacity: 100,
+  /** 阴影强度倍率（0-200），100 = 默认阴影 */
+  shadowIntensity: 100
 };
 
 // ===== 全局状态 =====
@@ -307,6 +311,14 @@ function normalizeSettings(settings) {
     ),
     sizeScale: Math.round(
       clamp(Number(settings.sizeScale) || DEFAULT_SETTINGS.sizeScale, 50, 150)
+    ),
+    /** 透明度：20（最淡）~ 100（不透明） */
+    stickerOpacity: Math.round(
+      clamp(Number(settings.stickerOpacity) ?? DEFAULT_SETTINGS.stickerOpacity, 20, 100)
+    ),
+    /** 阴影强度：0（无阴影）~ 200（双倍光晕） */
+    shadowIntensity: Math.round(
+      clamp(Number(settings.shadowIntensity) ?? DEFAULT_SETTINGS.shadowIntensity, 0, 200)
     )
   };
 }
@@ -868,8 +880,17 @@ function createStickerElement(root, anchor) {
   sticker.style.pointerEvents = "none";
   sticker.style.userSelect = "none";
 
-  // 阴影效果（增加立体感）
-  sticker.style.filter = "drop-shadow(0 6px 16px rgba(0, 0, 0, 0.28))";
+  // 应用用户设置的透明度（100 = 完全不透明，越低越淡）
+  const opacity = (currentSettings.stickerOpacity ?? DEFAULT_SETTINGS.stickerOpacity) / 100;
+  sticker.style.opacity = opacity;
+
+  // 阴影效果：根据强度倍率动态计算
+  // 基准值：offsetY=6px blur=16px alpha=0.28
+  const intensity = (currentSettings.shadowIntensity ?? DEFAULT_SETTINGS.shadowIntensity) / 100;
+  const offsetY = Math.round(6 * intensity);
+  const blurRadius = Math.round(16 * intensity);
+  const shadowAlpha = Math.min(0.6, 0.28 * intensity); // 上限 0.6 防止过暗
+  sticker.style.filter = `drop-shadow(0 ${offsetY}px ${blurRadius}px rgba(0, 0, 0, ${shadowAlpha}))`;
 
   // 应用位置
   for (const [keyName, value] of Object.entries(position)) {
@@ -1097,7 +1118,7 @@ function handleSettingsChanged(changes, areaName) {
   }
 
   // 检查是否有相关设置变更
-  const relevantKeys = ["enabled", "displayMode", "selectedBand", "selectedCharacters", "appearanceProbability", "sizeScale"];
+  const relevantKeys = ["enabled", "displayMode", "selectedBand", "selectedCharacters", "appearanceProbability", "sizeScale", "stickerOpacity", "shadowIntensity"];
   const hasRelevantChange = relevantKeys.some(key => changes[key]);
 
   if (!hasRelevantChange) {
@@ -1125,7 +1146,9 @@ function applySettingsFromChanges(changes) {
       ? changes.selectedCharacters.newValue
       : currentSettings.selectedCharacters,
     appearanceProbability: changes.appearanceProbability?.newValue ?? currentSettings.appearanceProbability,
-    sizeScale: changes.sizeScale?.newValue ?? currentSettings.sizeScale
+    sizeScale: changes.sizeScale?.newValue ?? currentSettings.sizeScale,
+    stickerOpacity: changes.stickerOpacity?.newValue ?? currentSettings.stickerOpacity,
+    shadowIntensity: changes.shadowIntensity?.newValue ?? currentSettings.shadowIntensity
   });
 
   console.log("[bandori-sticker] 设置已更新:", currentSettings);
@@ -1156,7 +1179,9 @@ async function reloadSettings() {
       /** 角色多选：使用 JSON 序列化比较数组内容 */
       JSON.stringify(newSettings.selectedCharacters) !== JSON.stringify(currentSettings.selectedCharacters) ||
       newSettings.appearanceProbability !== currentSettings.appearanceProbability ||
-      newSettings.sizeScale !== currentSettings.sizeScale;
+      newSettings.sizeScale !== currentSettings.sizeScale ||
+      newSettings.stickerOpacity !== currentSettings.stickerOpacity ||
+      newSettings.shadowIntensity !== currentSettings.shadowIntensity;
 
     if (changed) {
       console.log("[bandori-sticker] 轮询检测到设置变化:", { old: currentSettings, new: newSettings });
