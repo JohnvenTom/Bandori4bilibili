@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BanG Dream! 贴纸设置</title>
+    <link rel="stylesheet" href="options.css">
+  </head>
+  <body>
+    <!-- 背景装饰层 -->
+    <div class="bg-decoration" aria-hidden="true">
+      <div class="sparkle sparkle--1"></div>
+      <div class="sparkle sparkle--2"></div>
+      <div class="sparkle sparkle--3"></div>
+      <div class="sparkle sparkle--4"></div>
+      <div class="sparkle sparkle--5"></div>
+      <div class="sparkle sparkle--6"></div>
+      <div class="sparkle sparkle--7"></div>
+      <div class="bg-circle bg-circle--pink"></div>
+      <div class="bg-circle bg-circle--lavender"></div>
+      <div class="bg-circle bg-circle--blue"></div>
+      <div class="bg-circle bg-circle--gold"></div>
+    </div>
+
+    <!-- 网格纹理 -->
+    <aside aria-hidden="true" class="grid-texture"></aside>
+
+    <main class="page">
+      <section class="panel">
+        <!-- 装饰边框 -->
+        <div class="card-border" aria-hidden="true">
+          <div class="corner corner--tl"></div>
+          <div class="corner corner--tr"></div>
+          <div class="corner corner--bl"></div>
+          <div class="corner corner--br"></div>
+        </div>
+
+        <!-- 头部信息 -->
+        <header class="panel__header">
+          <div class="icon-frame">
+            <img class="panel__icon" src="icon.gif" alt="BanG Dream!" loading="lazy">
+            <div class="icon-glow"></div>
+          </div>
+          <div class="header-content">
+            <p class="eyebrow">Chrome Extension v1.0</p>
+            <h1>&#9733; 邦多利贴纸封面 &#9733;</h1>
+            <p class="subtitle">在B站视频封面上叠加 BanG Dream! 角色贴纸<br>支持全部9个乐队，让每个封面都有专属的贴纸</p>
+          </div>
+          <div class="ticket-stamp" aria-hidden="true">
+            <span>&#9733;</span>
+          </div>
+        </header>
+
+        <!-- 分隔装饰线 -->
+        <div class="divider" aria-hidden="true">
+          <span class="divider__line"></span>
+          <span class="divider__diamond"></span>
+          <span class="divider__line"></span>
+        </div>
+
+        <!-- 设置表单 -->
+        <form id="settings-form" class="settings-form">
+
+          <!-- ===== 乐队选择区域 ===== -->
+          <fieldset class="control-group">
+            <legend class="control-group__title">
+              <span class="control-icon">&#127906;</span>
+              乐队选择
+            </legend>
+
+            <!-- 显示模式 -->
+            <label class="control control--radio-group">
+              <div class="control__copy">
+                <span class="control__title">显示模式</span>
+              </div>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <input type="radio" name="displayMode" value="random_mix" checked>
+                    <div>
+                      <span class="radio-option__label">&#127922; 随机混合</span>
+                      <span class="radio-option__hint">从所有乐队中随机选择贴纸</span>
+                    </div>
+                  </div>
+                </label>
+                <label class="radio-option">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <input type="radio" name="displayMode" value="band_specific">
+                    <div>
+                      <span class="radio-option__label">&#127911; 指定乐队</span>
+                      <span class="radio-option__hint">只显示选定乐队的角色贴纸</span>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </label>
+
+            <!-- 乐队选择器（仅在"指定乐队"模式下显示） -->
+            <div id="band-selector" class="control" style="display: none;">
+              <div class="control__copy">
+                <span class="control__title">选择你喜欢的乐队</span>
+              </div>
+              <div class="band-grid" id="band-grid" role="radiogroup" aria-label="乐队选择">
+                <!-- 由 JavaScript 动态生成 -->
+              </div>
+            </div>
+
+            <!-- 角色多选器（仅在"指定乐队"模式且已选乐队时显示） -->
+            <div id="character-selector" class="control" style="display: none;">
+              <div class="control__copy">
+                <span class="control__title">选择角色（可多选）</span>
+                <span class="control__value"><button type="button" id="select-all-chars" class="char-action-btn">全选</button> / <button type="button" id="deselect-all-chars" class="char-action-btn">全不选</button></span>
+              </div>
+              <div class="character-grid" id="character-grid" role="group" aria-label="角色多选">
+                <!-- 由 JavaScript 动态生成 -->
+              </div>
+              <p class="control__hint">未选择任何角色时，将显示该乐队的所有贴纸</p>
+            </div>
+          </fieldset>
+
+          <!-- ===== 显示效果调整 ===== -->
+          <fieldset class="control-group control-group--effects">
+            <legend class="control-group__title">
+              <span class="control-icon">&#9881;</span>
+              显示效果
+            </legend>
+
+            <!-- 出现概率 -->
+            <label class="control" for="appearance-probability">
+              <div class="control__copy">
+                <span class="control__title">出现概率</span>
+                <span class="control__value"><output id="appearance-probability-value">100%</output></span>
+              </div>
+              <input id="appearance-probability" name="appearanceProbability" type="range" min="0" max="100" step="1">
+              <p class="control__hint"><strong>0%</strong> = 不显示任何贴纸 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>100%</strong> = 所有视频都显示贴纸</p>
+            </label>
+
+            <!-- 贴纸大小 -->
+            <label class="control" for="size-scale">
+              <div class="control__copy">
+                <span class="control__title">贴纸大小</span>
+                <span class="control__value"><output id="size-scale-value">100%</output></span>
+              </div>
+              <input id="size-scale" name="sizeScale" type="range" min="50" max="150" step="5">
+              <p class="control__hint"><strong>100%</strong> = 默认大小 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>120%</strong> = 略大 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>150%</strong> = 最大</p>
+            </label>
+          </fieldset>
+
+          <!-- 操作按钮 -->
+          <div class="actions">
+            <button id="reset-button" type="button" class="button button--secondary">&#8634; 重置默认</button>
+            <button type="submit" class="button button--primary">&#10003; 保存设置</button>
+          </div>
+
+          <!-- 状态提示 -->
+          <p id="status" class="status" aria-live="polite"></p>
+        </form>
+
+        <!-- 副票切割线 -->
+        <div class="ticket-tear ticket-tear--about" aria-hidden="true"></div>
+
+        <!-- 关于信息 -->
+        <section class="about">
+          <div class="about__header">
+            <span class="about__icon">&#128161;</span>
+            <h2>关于本扩展</h2>
+          </div>
+          <p>
+            用音乐传递心跳，用贴纸点亮封面 &#127925;
+            从 Poppin'Party 到 MyGO!!!!!，9 支乐队的角色贴纸陪你畅游 B站。
+          </p>
+          <div class="about__disclaimer">
+            &#9888;&#65039; 免责声明 — 本扩展为非官方同人作品，与 BanG Dream! / Bushiroad / Bilibili 无任何关联。<br>
+            所有角色版权归 Bushiroad 及相关方所有。本作品仅供学习交流使用。
+          </div>
+        </section>
+
+        <!-- 底部票根装饰 -->
+        <div class="ticket-tear" aria-hidden="true">
+          <svg viewBox="0 0 800 12" preserveAspectRatio="none">
+            <path d="M0,6 Q10,0 20,6 T40,6 T60,6 T80,6 T100,6 T120,6 T140,6 T160,6 T180,6 T200,6 T220,6 T240,6 T260,6 T280,6 T300,6 T320,6 T340,6 T360,6 T380,6 T400,6 T420,6 T440,6 T460,6 T480,6 T500,6 T520,6 T540,6 T560,6 T580,6 T600,6 T620,6 T640,6 T660,6 T680,6 T700,6 T720,6 T740,6 T760,6 T780,6 T800,6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="0 14" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </section>
+    </main>
+
+    <script src="bands.config.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>

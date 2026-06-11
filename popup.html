@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>邦多利贴纸开关</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <!-- 背景装饰层 -->
+    <div class="bg-decoration" aria-hidden="true">
+      <div class="sparkle sparkle--1"></div>
+      <div class="sparkle sparkle--2"></div>
+      <div class="sparkle sparkle--3"></div>
+      <div class="sparkle sparkle--4"></div>
+      <div class="sparkle sparkle--5"></div>
+      <div class="bg-circle bg-circle--pink"></div>
+      <div class="bg-circle bg-circle--lavender"></div>
+      <div class="bg-circle bg-circle--blue"></div>
+    </div>
+
+    <!-- 主卡片容器 -->
+    <main class="popup">
+      <!-- 装饰边框 -->
+      <div class="card-border" aria-hidden="true">
+        <div class="corner corner--tl"></div>
+        <div class="corner corner--tr"></div>
+        <div class="corner corner--bl"></div>
+        <div class="corner corner--br"></div>
+      </div>
+
+      <!-- 头部区域 -->
+      <header class="popup__hero">
+        <div class="icon-frame">
+          <img class="popup__icon" src="icon.gif" alt="BanG Dream!" loading="lazy">
+          <div class="icon-glow"></div>
+        </div>
+        <div class="hero-text">
+          <p class="popup__eyebrow">BanG Dream! v1.0</p>
+          <h1 class="popup__title">邦多利贴纸</h1>
+          <p id="toggle-description" class="popup__subtitle">在B站视频封面上叠加可爱的邦多利角色贴纸</p>
+        </div>
+        <div class="ticket-stamp" aria-hidden="true">
+          <span>★</span>
+        </div>
+      </header>
+
+      <!-- 分隔装饰线 -->
+      <div class="divider" aria-hidden="true">
+        <span class="divider__line"></span>
+        <span class="divider__diamond"></span>
+        <span class="divider__line"></span>
+      </div>
+
+      <!-- 当前状态显示 -->
+      <section class="popup__status" id="current-mode-display">
+        <div class="status-indicator" aria-hidden="true"></div>
+        <div class="status-content">
+          <span class="status-label">当前模式</span>
+          <span class="status-value" id="mode-text">加载中...</span>
+        </div>
+      </section>
+
+      <!-- 主开关按钮 -->
+      <button id="toggle-button" class="toggle" type="button" aria-describedby="toggle-description">
+        <div class="toggle__inner">
+          <span class="toggle__label">加载中</span>
+          <span class="toggle__state">...</span>
+        </div>
+        <div class="toggle__glow" aria-hidden="true"></div>
+      </button>
+
+      <!-- 底部操作区 -->
+      <footer class="popup__actions">
+        <button id="open-options-button" class="link-button" type="button">
+          <svg class="link-button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          更多设置
+        </button>
+      </footer>
+
+      <!-- 底部票根装饰 -->
+      <div class="ticket-tear" aria-hidden="true">
+        <svg viewBox="0 0 320 12" preserveAspectRatio="none">
+          <path d="M0,6 Q8,0 16,6 T32,6 T48,6 T64,6 T80,6 T96,6 T112,6 T128,6 T144,6 T160,6 T176,6 T192,6 T208,6 T224,6 T240,6 T256,6 T272,6 T288,6 T304,6 T320,6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="0 12" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </main>
+
+    <script src="bands.config.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
