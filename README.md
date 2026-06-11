@@ -99,7 +99,7 @@
 ## 📁 项目结构
 
 ```
-Bangdori4bilibili/
+Bandori4bilibili/
 ├── manifest.json          # 扩展清单 (MV3)
 ├── content.js             # 内容脚本核心（贴纸注入逻辑）
 ├── popup.html / .css / .js   # 弹窗界面（快速开关）
@@ -136,6 +136,18 @@ Bangdori4bilibili/
 - 本扩展为 **非官方同人作品**，与 BanG Dream! / Bushiroad / Bilibili 无任何关联
 - 所有角色版权归 **Bushiroad** 及相关方所有
 - 本作品仅供 **学习交流** 使用，请勿用于商业用途
+
+## ⭐ Star 支持
+
+如果这个项目让你在 B站 冲浪时多了一份快乐，欢迎给个 ⭐ 支持一下！
+
+<p align="center">
+  <a href="https://github.com/JohnvenTom/Bandori4bilibili">
+    <img src="https://img.shields.io/github/stars/JohnvenTom/Bandori4bilibili?style=social" alt="GitHub Stars">
+  </a>
+</p>
+
+你的 Star 是我继续维护的动力 —— 让更多邦邦出现在 B站 上是一件很幸福的事 ✨
 
 ## 📜 License
 
