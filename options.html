@@ -139,10 +139,36 @@
             <label class="control" for="size-scale">
               <div class="control__copy">
                 <span class="control__title">贴纸大小</span>
-                <span class="control__value"><output id="size-scale-value">100%</output></span>
+                <span class="control__value"><output id="size-scale-value">75%</output></span>
               </div>
               <input id="size-scale" name="sizeScale" type="range" min="50" max="150" step="5">
-              <p class="control__hint"><strong>100%</strong> = 默认大小 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>120%</strong> = 略大 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>150%</strong> = 最大</p>
+              <p class="control__hint"><strong>75%</strong> = 默认大小 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>100%</strong> = 原始 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>150%</strong> = 最大</p>
+            </label>
+
+            <!-- 贴纸透明度 -->
+            <label class="control control--with-preview" for="sticker-opacity">
+              <div class="control__copy">
+                <span class="control__title">&#127775; 贴纸透明度</span>
+                <span class="control__value"><output id="sticker-opacity-value">100%</output></span>
+              </div>
+              <input id="sticker-opacity" name="stickerOpacity" type="range" min="20" max="100" step="5">
+              <div class="slider-preview slider-preview--opacity" aria-hidden="true">
+                <span class="preview-star">&#9733;</span>
+              </div>
+              <p class="control__hint"><strong>100%</strong> = 完全不透明 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>60%</strong> = 轻盈半透 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>20%</strong> = 幽灵般淡雅</p>
+            </label>
+
+            <!-- 阴影强度 -->
+            <label class="control control--with-preview" for="shadow-intensity">
+              <div class="control__copy">
+                <span class="control__title">&#9728;&#65039; 阴影强度</span>
+                <span class="control__value"><output id="shadow-intensity-value">100%</output></span>
+              </div>
+              <input id="shadow-intensity" name="shadowIntensity" type="range" min="0" max="200" step="10">
+              <div class="slider-preview slider-preview--shadow" aria-hidden="true">
+                <span class="preview-orb"></span>
+              </div>
+              <p class="control__hint"><strong>0%</strong> = 无阴影（扁平贴图）&nbsp;&nbsp;|&nbsp;&nbsp; <strong>100%</strong> = 柔和立体 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>200%</strong> = 强烈投影光晕</p>
             </label>
           </fieldset>
 

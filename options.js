@@ -20,7 +20,11 @@ const DEFAULT_SETTINGS = {
   /** 角色多选列表（角色子目录名数组），空数组 = 显示该乐队所有角色 */
   selectedCharacters: [],
   appearanceProbability: 100,
-  sizeScale: 75
+  sizeScale: 75,
+  /** 贴纸透明度（20-100），100 = 完全不透明 */
+  stickerOpacity: 100,
+  /** 阴影强度倍率（0-200），100 = 默认阴影 */
+  shadowIntensity: 100
 };
 
 // ===== DOM元素引用 =====
@@ -30,6 +34,12 @@ const appearanceProbabilityInput = document.getElementById("appearance-probabili
 const sizeScaleInput = document.getElementById("size-scale");
 const appearanceProbabilityValue = document.getElementById("appearance-probability-value");
 const sizeScaleValue = document.getElementById("size-scale-value");
+/** 透明度滑块及显示 */
+const stickerOpacityInput = document.getElementById("sticker-opacity");
+const stickerOpacityValue = document.getElementById("sticker-opacity-value");
+/** 阴影强度滑块及显示 */
+const shadowIntensityInput = document.getElementById("shadow-intensity");
+const shadowIntensityValue = document.getElementById("shadow-intensity-value");
 const resetButton = document.getElementById("reset-button");
 const status = document.getElementById("status");
 
@@ -85,6 +95,14 @@ function normalizeSettings(settings) {
     ),
     sizeScale: Math.round(
       clamp(Number(settings.sizeScale) || DEFAULT_SETTINGS.sizeScale, 50, 150)
+    ),
+    /** 透明度：20（最淡）~ 100（不透明） */
+    stickerOpacity: Math.round(
+      clamp(Number(settings.stickerOpacity) ?? DEFAULT_SETTINGS.stickerOpacity, 20, 100)
+    ),
+    /** 阴影强度：0（无阴影）~ 200（双倍光晕） */
+    shadowIntensity: Math.round(
+      clamp(Number(settings.shadowIntensity) ?? DEFAULT_SETTINGS.shadowIntensity, 0, 200)
     )
   };
 }
@@ -92,13 +110,41 @@ function normalizeSettings(settings) {
 /**
  * 更新滑块输出显示值（带数字跳动动画效果）
  * 同时更新滑块轨道的 CSS 渐变填充进度
+ * 并驱动透明度/阴影预览元素的实时视觉反馈
  */
 function updateOutputs() {
   animateValue(appearanceProbabilityValue, `${appearanceProbabilityInput.value}%`);
   animateValue(sizeScaleValue, `${sizeScaleInput.value}%`);
-  /* 同步更新滑块轨道渐变填充宽度 */
+  animateValue(stickerOpacityValue, `${stickerOpacityInput.value}%`);
+  animateValue(shadowIntensityValue, `${shadowIntensityInput.value}%`);
+
+  /* 同步更新所有滑块轨道渐变填充宽度 */
   updateRangeFill(appearanceProbabilityInput);
   updateRangeFill(sizeScaleInput);
+  updateRangeFill(stickerOpacityInput);
+  updateRangeFill(shadowIntensityInput);
+
+  /* 驱动透明度预览：星星随值淡入淡出 */
+  const star = document.querySelector(".preview-star");
+  if (star) {
+    star.style.opacity = stickerOpacityInput.value / 100;
+  }
+
+  /* 驱动阴影预览：光球光晕随强度缩放 */
+  const orb = document.querySelector(".preview-orb");
+  if (orb) {
+    const intensity = Number(shadowIntensityInput.value);
+    const scale = intensity / 100;
+    orb.style.boxShadow = `
+      0 ${2 * scale}px ${8 * scale}px rgba(255, 107, 157, ${0.25 * scale}),
+      0 ${4 * scale}px ${16 * scale}px rgba(139, 92, 246, ${0.15 * scale})
+    `;
+    if (intensity > 120) {
+      /* 超过 120% 时添加粉色外发光 */
+      orb.style.boxShadow += `, 0 0 ${20 * scale}px rgba(255, 107, 157, ${0.2 * (intensity - 100) / 100})`;
+    }
+    orb.style.transform = `scale(${0.85 + 0.3 * scale})`;
+  }
 }
 
 /**
@@ -155,6 +201,8 @@ function applyToForm(settings) {
   // 应用滑块值
   appearanceProbabilityInput.value = settings.appearanceProbability;
   sizeScaleInput.value = settings.sizeScale;
+  stickerOpacityInput.value = settings.stickerOpacity;
+  shadowIntensityInput.value = settings.shadowIntensity;
 
   // 更新显示
   updateOutputs();
@@ -673,9 +721,13 @@ function collectFormSettings() {
   // 关键修复：强制从 DOM 重新获取元素和值，不使用闭包中的旧引用
   const probInput = document.getElementById("appearance-probability");
   const scaleInput = document.getElementById("size-scale");
+  const opacityInput = document.getElementById("sticker-opacity");
+  const shadowInput = document.getElementById("shadow-intensity");
 
   const rawProb = probInput ? probInput.value : DEFAULT_SETTINGS.appearanceProbability;
   const rawScale = scaleInput ? scaleInput.value : DEFAULT_SETTINGS.sizeScale;
+  const rawOpacity = opacityInput ? opacityInput.value : DEFAULT_SETTINGS.stickerOpacity;
+  const rawShadow = shadowInput ? shadowInput.value : DEFAULT_SETTINGS.shadowIntensity;
 
   const settings = normalizeSettings({
     enabled: true,
@@ -684,7 +736,9 @@ function collectFormSettings() {
     /** 收集当前角色多选状态 */
     selectedCharacters: getSelectedCharacters(),
     appearanceProbability: rawProb,
-    sizeScale: rawScale
+    sizeScale: rawScale,
+    stickerOpacity: rawOpacity,
+    shadowIntensity: rawShadow
   });
 
   console.log("[bandori-options] 表单收集详情:", {
@@ -712,6 +766,8 @@ function handleSliderInput() {
 
 appearanceProbabilityInput.addEventListener("input", handleSliderInput);
 sizeScaleInput.addEventListener("input", handleSliderInput);
+stickerOpacityInput.addEventListener("input", handleSliderInput);
+shadowIntensityInput.addEventListener("input", handleSliderInput);
 
 // 显示模式切换事件
 displayModeInputs.forEach((input) => {
