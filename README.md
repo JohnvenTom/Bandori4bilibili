@@ -137,6 +137,18 @@ Bangdori4bilibili/
 - 所有角色版权归 **Bushiroad** 及相关方所有
 - 本作品仅供 **学习交流** 使用，请勿用于商业用途
 
+## ⭐ Star 支持
+
+如果这个项目让你在 B站 冲浪时多了一份快乐，欢迎给个 ⭐ 支持一下！
+
+<p align="center">
+  <a href="https://github.com/JohnvenTom/Bangdori4bilibili">
+    <img src="https://img.shields.io/github/stars/JohnvenTom/Bangdori4bilibili?style=social" alt="GitHub Stars">
+  </a>
+</p>
+
+你的 Star 是我继续维护的动力 —— 让更多邦邦出现在 B站 上是一件很幸福的事 ✨
+
 ## 📜 License
 
 MIT License
